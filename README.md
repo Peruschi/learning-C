@@ -1,2 +1,2 @@
 # leetcode The answe of C langeuage
-[problem]()
+[problem](https://github.com/Peruschi/leetcode-C/tree/main/problem)
