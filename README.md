@@ -15,5 +15,5 @@ C語言流程控制的幾項操作
 [C language Code](https://github.com/Peruschi/leetcode-C/blob/main/Process%20control.md)
 
 ## Variadic
-C語言的可變參數
+C語言的可變參數  
 [C language Code](https://github.com/Peruschi/leetcode-C/blob/main/Variadic.md)
