@@ -82,8 +82,8 @@ return env2
 ```
 在上面的程式碼，有三個特別的東西，也是包含在`<setjmp.h>`標頭檔中。  
 - `jmp_buf`: 類型是一個大小為10的array，存著控制跳轉所需的各類變數
-- `setjmp`: 是一個macro，`int setjmp(jmp_buf environment)`是它的型態
-- `longjmp`: 是一個函式，`void longjmp(jmp_buf environment, int value)`是它的型態
+- `setjmp`: 是一個macro，樣式`int setjmp(jmp_buf environment)`
+- `longjmp`: 是一個函式，樣式`void longjmp(jmp_buf environment, int value)`
 
 使用它前，我們需要先宣告一個`jmp_buf`類型的變數，它保存了當前執行的環境，紀錄需要跳轉後的樣子。  
 它藉由當作參數傳入`setjmp`，macro`setjmp`不僅僅只會回傳一次，但最初值都是回傳0，  
