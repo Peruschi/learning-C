@@ -7,7 +7,7 @@
   - 思路講解  
 
 ## HashTable C language 實作
-用C語言實作以`char*`()為key的簡單哈希表  
+用C語言實作以`char*`(string)為key的簡單哈希表  
 [C language Code](https://github.com/Peruschi/leetcode-C/blob/main/HashTable/HashTable.md)
 
 ## Process control
