@@ -87,7 +87,7 @@ return env2
 
 使用它前，我們需要先宣告一個`jmp_buf`類型的變數，它保存了當前執行的環境，紀錄需要跳轉後的樣子。  
 它藉由當作參數傳入`setjmp`，macro`setjmp`不僅僅只會回傳一次，但最初值都是回傳0，  
-它會根據之後調用的函式`longjmp`跳回`setjmp`的位置，並且由`longjmp`的參數`value`去更改原先`setjmp`的回傳值。  
+它會根據之後調用的函式`longjmp`跳回`setjmp`的位置在重新執行一遍``，並且由`longjmp`的參數`value`去更改原先`setjmp`的回傳值。  
 我們可以借由它回傳值的改變來控制流程的變化。
 
 
