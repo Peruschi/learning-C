@@ -81,7 +81,7 @@ first
 return env2
 ```
 在上面的程式碼，有三個特別的東西，也是包含在`<setjmp.h>`標頭檔中。  
-- `jmp_buf`: 是一個大小為10的array，存著控制跳轉所需的各類變數
+- `jmp_buf`: 類型是一個大小為10的array，存著控制跳轉所需的各類變數
 - `setjmp`: 是一個macro，`int setjmp(jmp_buf environment)`是它的型態
 - `longjmp`: 是一個函式，`void longjmp(jmp_buf environment, int value)`是它的型態
 
