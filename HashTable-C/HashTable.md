@@ -1,8 +1,8 @@
 # HashTable
 簡單的C語言實作  
-key(index)以`char*`為值  
-value以`char*`為值  
 可以根據需求更改  
+- key(index)以`char*`為值  
+- value以`char*`為值  
 ```c
 #include<stdio.h>
 #include<string.h>
