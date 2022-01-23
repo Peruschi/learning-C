@@ -12,7 +12,7 @@ typedef struct {
 
 // HashTable
 typedef struct {
-    int size;
+    int slot_size;
     int count;
     ht_item **items;
 } hash_table;
@@ -22,14 +22,14 @@ void* check_malloc(const void* ptr);
 
 // create (HashTable, HashTable of items)
 ht_item* create_ht_item(const char *key, const char *value);
-hash_table* create_ht(const int size);
+hash_table* create_ht(const int slot_size);
 
 // free (HashTable, HashTable of items)
 void free_ht_item(ht_item *item);
 void free_ht(hash_table *table);
 
 // calculate Hash Value
-int hash(const char *key, const int size);
+unsigned int hash(const char *key);
 
 // basic operation: (insert, search, delete)
 void insert_ht(hash_table *table, const char *key, const char *value);
@@ -37,10 +37,10 @@ char* search_ht(const hash_table *table, const char *key);
 void delete_ht(hash_table *table, const char *key);
 
 int main(void){
-    hash_table *table = create_ht(1000);
+    hash_table *table = create_ht(22501);
     
     // store into HashTable
-    insert_ht(table, "烏拉拉", "ddddddddddd");
+    insert_ht(table, "烏拉拉", "Ohhhh...");
     printf("first: key = %s value = %s\n", "烏拉拉", search_ht(table, "烏拉拉"));
     
     // delete from HashTable
@@ -53,8 +53,8 @@ int main(void){
     }
     
     // store into HashTable again
-    insert_ht(table, "烏拉拉", "ddddddddddd");
-    printf("first: key = %s value = %s\n", "烏拉拉", search_ht(table, "烏拉拉"));
+    insert_ht(table, "烏拉拉", "Oh我好餓h...");
+    printf("third: key = %s value = %s\n", "烏拉拉", search_ht(table, "烏拉拉"));
     
     free_ht(table);
     
@@ -65,26 +65,26 @@ int main(void){
 
 
 
-void* check_malloc(const void* ptr){
+void* check(const void* ptr){
     if (ptr == NULL){
         printf("Memory allocation failed!\n");
         abort();
     }
-    return ptr;
+    return (void*)ptr;
 }
 
 ht_item* create_ht_item(const char *key, const char *value){
-    ht_item *item = check_malloc(malloc(sizeof(ht_item)));
-    item->key = check_malloc(strdup(key));
-    item->value = check_malloc(strdup(value));
+    ht_item *item = check(malloc(sizeof(ht_item)));
+    item->key = check(strdup(key));
+    item->value = check(strdup(value));
     return item;
 }
 
-hash_table* create_ht(const int size){
-    hash_table *table = check_malloc(malloc(sizeof(hash_table)));
-    table->size = size;
+hash_table* create_ht(const int slot_size){
+    hash_table *table = check(malloc(sizeof(hash_table)));
+    table->slot_size = slot_size;
     table->count = 0;
-    table->items = check_malloc(calloc(size, sizeof(ht_item*)));
+    table->items = check(calloc(slot_size, sizeof(ht_item*)));
     return table;
 }
 
@@ -95,7 +95,7 @@ void free_ht_item(ht_item *item){
 }
 
 void free_ht(hash_table *table){
-    for (size_t i = 0; i < table->size; i++){
+    for (int i = 0; i < table->slot_size; i++){
         ht_item *item = table->items[i];
         if (item){
             free_ht_item(item);
@@ -105,58 +105,79 @@ void free_ht(hash_table *table){
     free(table);
 }
 
-int hash(const char *key, const int size){
-    unsigned long long hash = 0;
-    int len_key = strlen(key);
-    for (int i = 0; i < len_key; i++){
-        hash += (unsigned long long)pow(199, len_key - (i + 1)) * key[i];
-        hash %= size;
+unsigned int hash(const char *str){
+    unsigned int hash = 0, x = 0;
+   while (*str){
+        hash = (hash << 4) + (*str++);
+        if (x = hash & 0xF0000000){
+            hash ^= (x >> 24);
+            hash &= ~x;
+        }
     }
-    return hash;
+    return (hash & 0x7FFFFFFF);
 }
 
 void insert_ht(hash_table *table, const char *key, const char *value){
-    if (table->size == table->count){
+    if (table->slot_size == table->count){
         printf("HashTable is full!\n");
         return ;
     }
+    int slot_size = table->slot_size, index = 0;
+    ht_item *item = create_ht_item(key, value);
     
-    int index = hash(key, table->size);
-    ht_item *item = table->items[index];
-
-    if (item){
-        // collision happen (Pending)
-        if (strcmp(item->key, key)){
-            free_ht_item(item);
+    for (int i = 0; i < slot_size; i++){
+        index = (hash(key) + i * hash(key) + 1) % slot_size;
+        if (table->items[index]){
+            if (strcmp(item->key, key)){
+                continue;
+            }
+            else {
+                delete_ht(table, key);
+            }
         }
-        // the key is existed (Pending)
-        else {
-            free_ht_item(item);
-        }
-        table->items[index] = NULL;
+        break;
     }
-    
-    table->items[index] = create_ht_item(key, value);
+
+    table->items[index] = item;
     table->count++;
 }
 
 char* search_ht(const hash_table *table, const char *key){
-    int index = hash(key, table->size);
-    ht_item *item = table->items[index];
-    
-    if (item && !strcmp(item->key, key)){
-        return item->value;
+    int slot_size = table->slot_size, index = 0;
+    ht_item *item;
+
+    for (int i = 0; i < slot_size; i++){
+        index = (hash(key) + i * hash(key) + 1) % slot_size;
+        item = table->items[index];
+        if (item){
+            if (strcmp(item->key, key)){
+                continue;
+            }
+            else {
+                return item->value;
+            }
+        }
     }
     
     return NULL;
 }
 
 void delete_ht(hash_table *table, const char *key){
-    int index = hash(key, table->size);
-    ht_item *item = table->items[index];
-    
-    if (item && !strcmp(item->key, key)){
-        free_ht_item(item);
+    int slot_size = table->slot_size, index = 0;
+    ht_item *item;
+
+    for (int i = 0; i < slot_size; i++){
+        index = (hash(key) + i * hash(key) + 1) % slot_size;
+        item = table->items[index];
+        if (item){
+            if (strcmp(item->key, key)){
+                continue;
+            }
+            else {
+                free_ht_item(item);
+                break;
+            }
+        }
     }
     
     table->items[index] = NULL;
