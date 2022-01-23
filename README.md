@@ -1,12 +1,12 @@
 # C language
-## Leetcode 問題集
+## Leetcode Problem Set
 [Leetcode problem set](https://github.com/Peruschi/leetcode-C/tree/main/problems)
 - 內容:
   - 全C
   - 程式碼解答
   - 思路講解  
 
-## HashTable C language 實作
+## HashTable C language implement
 用C語言實作以`char*`(string)為key的簡單哈希表  
 [C language Code](https://github.com/Peruschi/leetcode-C/blob/main/HashTable/HashTable.c)
 
