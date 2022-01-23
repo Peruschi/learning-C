@@ -8,7 +8,7 @@
 
 ## HashTable C language 實作
 用C語言實作以`char*`(string)為key的簡單哈希表  
-[C language Code](https://github.com/Peruschi/leetcode-C/blob/main/HashTable/HashTable.md)
+[C language Code](https://github.com/Peruschi/leetcode-C/blob/main/HashTable/HashTable.c)
 
 ## Process control
 C語言流程控制的幾項操作  
