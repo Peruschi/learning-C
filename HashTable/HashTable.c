@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include<string.h>
-#include<math.h>
 
 // ht -> hash table
 // HashTable of items
