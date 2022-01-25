@@ -8,6 +8,7 @@ typedef struct {
     char *key;
     char *value;
 } ht_item;
+
 // record deleted location
 static ht_item DELETED_ITEM = {.key = NULL, .value = NULL};
 
