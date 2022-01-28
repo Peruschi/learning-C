@@ -17,3 +17,7 @@ C語言流程控制的幾項操作
 ## Variadic
 C語言的可變參數  
 [C language Code](https://github.com/Peruschi/leetcode-C/blob/main/Variadic.md)
+
+## Memory management
+藉由sbrk實踐簡單的內存操作  
+[C language Code](https://github.com/Peruschi/leetcode-C/blob/main/Memory%20management/%20Memory%20management.c)
