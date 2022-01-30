@@ -27,6 +27,8 @@ static Header* split_block(Header *curr, size_t size);
 static Header* merge_block(Header *curr);
 
 void* malloc(size_t size);
+void* calloc(size_t num, size_t type_size);
+void* realloc(void *block, size_t size);
 void free(void* block);
 
 void debug(void* block){
@@ -49,7 +51,7 @@ int main(void){
 	free(ptr1);
 	free(ptr2);
 	free(ptr3);
-
+	char *ptr = malloc(sizeof(char));
 	int *ptr5 = malloc(sizeof(int));
 	int *ptr6 = malloc(sizeof(int));
 	long*ptr7 = malloc(sizeof(long));
@@ -157,6 +159,46 @@ void* malloc(size_t size){
 
 	pthread_mutex_unlock(&mutex);
 	return (void*)(header + 1);
+}
+
+void* calloc(size_t num, size_t type_size){
+	if (!num || !type_size){
+		return NULL;
+	}
+
+	size_t total_size = num * type_size;
+	if (num != total_size / type_size){
+		return NULL;
+	}
+
+	void *block = malloc(total_size);
+	if (!block){
+		return NULL;
+	}
+	memset(block, 0, total_size);
+	return block;
+}
+
+void* realloc(void *block, size_t size){
+	if (!block){
+		return NULL;
+	}
+	if (!size){
+		free(block);
+		return NULL;
+	}
+
+	Header *header = (Header*)block - 1;
+	if (size <= header->info.size){
+		return block;
+	}
+
+	void *new_block = malloc(size);
+	if (new_block){
+		memcpy(new_block, block, header->info.size);
+		free(block);
+	}
+	return new_block;
 }
 
 void free(void* block){
