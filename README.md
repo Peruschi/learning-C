@@ -20,4 +20,4 @@ C語言的可變參數
 
 ## Memory management
 藉由sbrk實踐簡單的內存操作  
-[C language Code](https://github.com/Peruschi/leetcode-C/blob/main/Memory%20allocator/Memory%20allocator.c)
+[C language Code](https://github.com/Peruschi/leetcode-C/blob/main/Memory%20allocator/Memory-allocator.c)
