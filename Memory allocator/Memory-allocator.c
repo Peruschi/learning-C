@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 
-#define MAX_FREE_THRESHOLD 28672
 #define MIN_APPLICATION_THRESHOLD 4096
 
 typedef char ALIGN[24];
@@ -165,6 +164,46 @@ void* malloc(size_t size){
 	}
 
 	return (void*)(header + 1);
+}
+
+void* calloc(size_t num, size_t type_size){
+	if (!num || !type_size){
+		return NULL;
+	}
+
+	size_t total_size = num * type_size;
+	if (num != total_size / type_size){
+		return NULL;
+	}
+
+	void *block = malloc(total_size);
+	if (!block){
+		return NULL;
+	}
+	memset(block, 0, total_size);
+	return block;
+}
+
+void* realloc(void *block, size_t size){
+	if (!block){
+		return NULL;
+	}
+	if (!size){
+		free(block);
+		return NULL;
+	}
+
+	Header *header = (Header*)block - 1;
+	if (size <= header->info.size){
+		return block;
+	}
+
+	void *new_block = malloc(size);
+	if (new_block){
+		memcpy(new_block, block, header->info.size);
+		free(block);
+	}
+	return new_block;
 }
 
 void free(void *block){
