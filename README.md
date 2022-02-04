@@ -24,4 +24,4 @@ C語言的可變參數
 
 ## Shell
 用C語言實作簡單功能的shell  
-[C language Code]()  
+[C language Code](https://github.com/Peruschi/leetcode-C/blob/main/Shell/shell.c)  
