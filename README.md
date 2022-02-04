@@ -15,7 +15,8 @@ C語言的可變參數
 [C language Code](https://github.com/Peruschi/leetcode-C/blob/main/Variadic.md)
 
 ## Memory management
-藉由sbrk實踐簡單的內存操作(請勿使用、有瑕疵)  
+藉由sbrk實踐簡單的內存操作  
+(請勿使用、有瑕疵，參考思路就好)  
 [C language Code](https://github.com/Peruschi/leetcode-C/blob/main/Memory%20allocator/Memory-allocator.c)
 
 ## HashTable C language implement
